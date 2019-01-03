@@ -6,6 +6,12 @@ public class GameEngine {
 	float gravity = 1;
 	float gravityValue = 9.81;
 
+	float speed = 10;
+
+	float StartTime;
+	float ElapsedTime;
+	float LastUpdate;
+
 	/**
 	 * The Entire game object List
 	 * @type {ArrayList}
@@ -22,6 +28,8 @@ public class GameEngine {
 	 * @return {[type]} [description]
 	 */
 	void setup() {
+		StartTime = millis();
+
 		for (GameObject o : gameObjects) {
 			o.setup();
 		}
@@ -32,8 +40,10 @@ public class GameEngine {
 	 * @return {[type]} [description]
 	 */
 	void draw() {
+		ElapsedTime = millis() - StartTime;
+
 		for (GameObject o : gameObjects) {
-			o.update();
+			o.update(millis() - LastUpdate, ElapsedTime);
 
 			if(o.collision) {
 				for (GameObject s : gameObjects) {
@@ -43,6 +53,8 @@ public class GameEngine {
 				}
 			}
 		}
+
+		LastUpdate = millis();
 	}
 
 	void keyPressed(key) {
@@ -76,6 +88,7 @@ public class GameEngine {
 	GameObject Instantiate(Type) {
 		GameObject o = new Type(this);
 		gameObjects.add(o);
+		o.setup();
 		return o;
 	}
 

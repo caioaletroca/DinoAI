@@ -12,6 +12,7 @@ public class Player extends GameObject {
 	// States
 	boolean Duck;
 	boolean Jumping;
+	boolean Died;
 
 	/**
 	 * The Collision system instance
@@ -39,6 +40,10 @@ public class Player extends GameObject {
 		// Jumping
 		frames.add(loadImage("res/dinoJump0000.png"));
 
+		// Died
+		frames.add(loadImage("res/dinoDead0000.png"));
+		frames.get(5).resize(96, 112);
+
 		// Input handlers
 		this.game.addKeyListener("KeyPressed", onKeyPressed);
 		this.game.addKeyListener("KeyReleased", onKeyReleased);
@@ -56,7 +61,7 @@ public class Player extends GameObject {
 	void move() {
 		position.y += vy;
 
-		if(position.y < height) {
+		if(!Died && position.y < height) {
 			vy += this.game.getGravity();
 		}
 		else {
@@ -83,6 +88,9 @@ public class Player extends GameObject {
 		if(this.Jumping)
 			CurrentFrame = frames.get(4);
 
+		if(this.Died)
+			CurrentFrame = frames.get(5);
+
 		// Update frame
 		image(CurrentFrame, position.x, position.y);
 
@@ -99,8 +107,12 @@ public class Player extends GameObject {
 		// Remove velocity
 		vy = 0;
 
-		// Clear jumping flag
-		Jumping = false;
+		if(collided instanceof Ground)
+			// Clear jumping flag
+			Jumping = false;
+
+		if(collided instanceof Obstacle)
+			die();
 	}
 
 	void onKeyPressed(key) {
@@ -140,5 +152,9 @@ public class Player extends GameObject {
 			position.y -= 48;
 			Duck = false;
 		}
+	}
+
+	void die() {
+		Died = true;
 	}
 }

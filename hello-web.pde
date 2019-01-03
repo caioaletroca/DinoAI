@@ -4,6 +4,10 @@
 int speed = 10;
 int groundTimer = 0;
 
+/**
+ * The Game Engine instance
+ * @type {GameEngine}
+ */
 GameEngine game = new GameEngine();
 
 /**
@@ -17,10 +21,14 @@ void setup() {
 	size(800, 500);
 	background(250);
 
+	// Change gravity force
 	game.gravity = 0.15;
 
+	// Create basic game objects
 	game.Instantiate(Player);
 	game.Instantiate(Ground);
+
+	game.Instantiate(ObstaclesSpawner);
 
 	game.setup();
 }
@@ -36,6 +44,7 @@ void draw() {
 	
 	updateObjects();
 }
+
 
 void keyPressed(){
 	game.keyPressed(key);
