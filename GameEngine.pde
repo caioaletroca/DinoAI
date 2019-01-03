@@ -7,6 +7,11 @@ public class GameEngine {
 	float gravityValue = 9.81;
 	ArrayList<GameObject> gameObjects = new ArrayList<GameObject>();
 
+	int KeyPressed;
+	int KeyReleased;
+	ArrayList<function> KeyPressedEventHandler = new ArrayList<function>();
+	ArrayList<function> KeyReleasedEventHandler = new ArrayList<function>();
+
 	void setup() {
 		for (GameObject o : gameObjects) {
 			o.setup();
@@ -28,14 +33,18 @@ public class GameEngine {
 	}
 
 	void keyPressed(key) {
-		if(key == 65535) {
-			((Player)getObjects(Player).get(0)).Duck = true;
+		KeyPressed = key;
+
+		for (function o : KeyPressedEventHandler) {
+			o(key);
 		}
 	}
 
 	void keyReleased(key) {
-		if(key == 65535) {
-			((Player)getObjects(Player).get(0)).Duck = false;
+		KeyReleased = key;
+
+		for (function o : KeyReleasedEventHandler) {
+			o(key);
 		}
 	}
 
@@ -75,5 +84,9 @@ public class GameEngine {
 
 	float getGravity() {
 		return gravity * gravityValue;
+	}
+
+	void addKeyListener(Type, Handler) {
+		this[Type + "EventHandler"].add(Handler);
 	}
 }

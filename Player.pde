@@ -3,8 +3,6 @@
  */
 public class Player extends GameObject {
 
-	float x = 50;
-	float y = 0;
 	float vy = 0;
 
 	PImage CurrentFrame;
@@ -27,10 +25,16 @@ public class Player extends GameObject {
 	}
 
 	void setup() {
+		position.x = 50;
+
 		frames.add(loadImage("res/dinorun0000.png"));
 		frames.add(loadImage("res/dinorun0001.png"));
 		frames.add(loadImage("res/dinoduck0000.png"));
 		frames.add(loadImage("res/dinoduck0001.png"));
+
+		// Event handler
+		this.game.addKeyListener("KeyPressed", onKeyPressed);
+		this.game.addKeyListener("KeyReleased", onKeyReleased);
 	}
 
 	void update() {
@@ -39,8 +43,8 @@ public class Player extends GameObject {
 	}
 
 	void move() {
-		y += vy;
-		if(y < height) {
+		position.y += vy;
+		if(position.y < height) {
 			vy += this.game.getGravity();
 		}
 		else {
@@ -66,10 +70,10 @@ public class Player extends GameObject {
 		}
 
 		// Update frame
-		image(CurrentFrame, x, y);
+		image(CurrentFrame, position.x, position.y);
 
 		// Update collision
-		collision.setSprite(new Vector2(x, y), CurrentFrame);
+		collision.setSprite(position, CurrentFrame);
 
 		if (AnimationFrame == TotalFrames)
 			AnimationFrame = 0;
@@ -77,6 +81,30 @@ public class Player extends GameObject {
 
 	void onCollision(collided) {
 		vy = 0;
+	}
+
+	void onKeyPressed(key) {
+		if (key == 65535)
+			duck();
+	}
+
+	void onKeyReleased(key) {
+		if(key == 65535)
+			stand();
+	}
+
+	void duck() {
+		if(!Duck) {
+			position.y += 48;
+			Duck = true;
+		}
+	}
+
+	void stand() {
+		if(Duck) {
+			position.y -= 48;
+			Duck = false;
+		}
 	}
 
 }
