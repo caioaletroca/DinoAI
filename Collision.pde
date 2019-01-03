@@ -22,6 +22,10 @@ public class Collision {
 		shape[1] = new Vector2();
 	}
 
+	/**
+	 * Constructor with the game object instance
+	 * @param {[type]} gameObject The game object instance who owns the collision
+	 */
 	public Collision (gameObject) {
 		shape[0] = new Vector2();
 		shape[1] = new Vector2();
@@ -29,6 +33,11 @@ public class Collision {
 		this.gameObject = gameObject;
 	}
 
+	/**
+	 * Evaluate with a collision happened
+	 * @param  {[type]} s The game object to be evaluated
+	 * @return {[type]}   [description]
+	 */
 	boolean evaluate(s) {
 		//console.log(s.collision.shape, shape);
 		if(
@@ -49,6 +58,11 @@ public class Collision {
 		shape[1].y = position.y + sprite.height;
 	}
 
+	/**
+	 * Triggers the collision event
+	 * @param  {[type]} collided The game object who have collided
+	 * @return {[type]}          [description]
+	 */
 	void trigger(collided) {
 		gameObject.onCollision(collided);
 	}

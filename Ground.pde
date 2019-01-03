@@ -29,4 +29,11 @@ public class Ground extends GameObject {
 		collision.shape[1].y = height;
 	}
 
+	void update() {
+		// Draws ground line
+		stroke(0);
+	    strokeWeight(2);
+	    line(0, height - GroundHeight - 30, width, height - GroundHeight - 30);
+	}
+
 }

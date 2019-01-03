@@ -5,6 +5,11 @@ public class GameEngine {
 
 	float gravity = 1;
 	float gravityValue = 9.81;
+
+	/**
+	 * The Entire game object List
+	 * @type {ArrayList}
+	 */
 	ArrayList<GameObject> gameObjects = new ArrayList<GameObject>();
 
 	int KeyPressed;
@@ -12,12 +17,20 @@ public class GameEngine {
 	ArrayList<function> KeyPressedEventHandler = new ArrayList<function>();
 	ArrayList<function> KeyReleasedEventHandler = new ArrayList<function>();
 
+	/**
+	 * [setup description]
+	 * @return {[type]} [description]
+	 */
 	void setup() {
 		for (GameObject o : gameObjects) {
 			o.setup();
 		}
 	}
 
+	/**
+	 * [draw description]
+	 * @return {[type]} [description]
+	 */
 	void draw() {
 		for (GameObject o : gameObjects) {
 			o.update();
@@ -86,6 +99,11 @@ public class GameEngine {
 		return gravity * gravityValue;
 	}
 
+	/**
+	 * Adds a new input handler
+	 * @param {[type]} Type    The input event type
+	 * @param {[type]} Handler The handler method
+	 */
 	void addKeyListener(Type, Handler) {
 		this[Type + "EventHandler"].add(Handler);
 	}

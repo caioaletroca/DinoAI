@@ -2,7 +2,6 @@
  * Global Variables
  */
 int speed = 10;
-int groundHeight = 100;
 int groundTimer = 0;
 
 GameEngine game = new GameEngine();
@@ -24,10 +23,6 @@ void setup() {
 	game.Instantiate(Ground);
 
 	game.setup();
-
-	stroke(0);
-	strokeWeight(2);
-	line(0, height - groundHeight - 30, width, height - groundHeight - 30);
 }
 
 /**
@@ -35,10 +30,7 @@ void setup() {
  * @return {[type]} [description]
  */
 void draw() {
-	background(250); 
-    stroke(0);
-    strokeWeight(2);
-    line(0, height - groundHeight - 30, width, height - groundHeight - 30);
+	background(250);
 
 	game.draw();
 	

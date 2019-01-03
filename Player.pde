@@ -11,6 +11,7 @@ public class Player extends GameObject {
 
 	// States
 	boolean Duck;
+	boolean Jumping;
 
 	/**
 	 * The Collision system instance
@@ -27,12 +28,18 @@ public class Player extends GameObject {
 	void setup() {
 		position.x = 50;
 
+		// Running
 		frames.add(loadImage("res/dinorun0000.png"));
 		frames.add(loadImage("res/dinorun0001.png"));
+
+		// Ducking
 		frames.add(loadImage("res/dinoduck0000.png"));
 		frames.add(loadImage("res/dinoduck0001.png"));
 
-		// Event handler
+		// Jumping
+		frames.add(loadImage("res/dinoJump0000.png"));
+
+		// Input handlers
 		this.game.addKeyListener("KeyPressed", onKeyPressed);
 		this.game.addKeyListener("KeyReleased", onKeyReleased);
 	}
@@ -42,20 +49,24 @@ public class Player extends GameObject {
 		animate();
 	}
 
+	/**
+	 * Moves the player and apply gravity
+	 * @return {[type]} [description]
+	 */
 	void move() {
 		position.y += vy;
+
 		if(position.y < height) {
 			vy += this.game.getGravity();
 		}
 		else {
 			vy = 0;
-			//y = height;
 		}
 	}
 
 	void animate() {
 		int TotalFrames = 10;
-		AnimationFrame++;
+
 		if (AnimationFrame < TotalFrames / 2) {
 			if(this.Duck)
 				CurrentFrame = frames.get(2);
@@ -69,28 +80,52 @@ public class Player extends GameObject {
 				CurrentFrame = frames.get(1);
 		}
 
+		if(this.Jumping)
+			CurrentFrame = frames.get(4);
+
 		// Update frame
 		image(CurrentFrame, position.x, position.y);
 
 		// Update collision
 		collision.setSprite(position, CurrentFrame);
 
+		AnimationFrame++;
+
 		if (AnimationFrame == TotalFrames)
 			AnimationFrame = 0;
 	}
 
 	void onCollision(collided) {
+		// Remove velocity
 		vy = 0;
+
+		// Clear jumping flag
+		Jumping = false;
 	}
 
 	void onKeyPressed(key) {
-		if (key == 65535)
+		if (key == 65535) // Arrows keys
 			duck();
+		else if(key == 32) // Space bar
+			jump();
 	}
 
 	void onKeyReleased(key) {
 		if(key == 65535)
 			stand();
+	}
+
+	void jump() {
+		if(!Jumping) {
+			// Remove ducking state
+			if(Duck)
+				stand();	
+
+			// Jump force
+			vy -= 25;
+
+			Jumping = true;
+		}
 	}
 
 	void duck() {
@@ -106,5 +141,4 @@ public class Player extends GameObject {
 			Duck = false;
 		}
 	}
-
 }

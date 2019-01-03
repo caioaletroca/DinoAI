@@ -3,8 +3,10 @@
  */
 public class GroundSparks extends GameObject {
 
+	float GroundHeight = 100;
+
 	float x = width;
-	float y = height - floor(random(groundHeight - 20, groundHeight + 30));
+	float y = height - floor(random(GroundHeight - 20, GroundHeight + 30));
 	int w = random(1, 10);
 
 	public GroundSparks (game) {
