@@ -3,6 +3,8 @@
  */
 public class GameEngine {
 
+	float gravity = 1;
+	float gravityValue = 9.81;
 	ArrayList<GameObject> gameObjects = new ArrayList<GameObject>();
 
 	void setup() {
@@ -14,6 +16,26 @@ public class GameEngine {
 	void draw() {
 		for (GameObject o : gameObjects) {
 			o.update();
+
+			if(o.collision) {
+				for (GameObject s : gameObjects) {
+					if(s.collision && o != s)
+						if(o.collision.evaluate(s))
+							o.collision.trigger(s);
+				}
+			}
+		}
+	}
+
+	void keyPressed(key) {
+		if(key == 65535) {
+			((Player)getObjects(Player).get(0)).Duck = true;
+		}
+	}
+
+	void keyReleased(key) {
+		if(key == 65535) {
+			((Player)getObjects(Player).get(0)).Duck = false;
 		}
 	}
 
@@ -49,5 +71,9 @@ public class GameEngine {
 		}
 
 		return results;
+	}
+
+	float getGravity() {
+		return gravity * gravityValue;
 	}
 }

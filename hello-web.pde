@@ -1,13 +1,9 @@
 /**
  * Global Variables
  */
-PImage dinoRun1;
-
 int speed = 10;
 int groundHeight = 100;
 int groundTimer = 0;
-
-ArrayList<Ground> grounds = new ArrayList<Ground>();
 
 GameEngine game = new GameEngine();
 
@@ -17,27 +13,21 @@ GameEngine game = new GameEngine();
  */
 void setup() {
 
-	game.setup();
-
 	// Engine setup
 	frameRate(60);
 	size(800, 500);
 	background(250);
 
+	game.gravity = 0.15;
+
+	game.Instantiate(Player);
+	game.Instantiate(Ground);
+
+	game.setup();
 
 	stroke(0);
 	strokeWeight(2);
 	line(0, height - groundHeight - 30, width, height - groundHeight - 30);
-	
-	loadFiles();
-}
-
-/**
- * Load images from store
- * @return {[type]} [description]
- */
-void loadFiles() {
-	dinoRun1 = loadImage("res/dinorun0000.png");
 }
 
 /**
@@ -50,17 +40,23 @@ void draw() {
     strokeWeight(2);
     line(0, height - groundHeight - 30, width, height - groundHeight - 30);
 
-	image(dinoRun1, 0, 0);
-
 	game.draw();
 	
 	updateObjects();
+}
+
+void keyPressed(){
+	game.keyPressed(key);
+}
+
+void keyReleased() {
+	game.keyReleased(key);
 }
 
 void updateObjects() {
 	groundTimer++;
 	if(groundTimer > 10) {
 		groundTimer = 0;
-		game.Instantiate(Ground);
+		game.Instantiate(GroundSparks);
 	}
 }

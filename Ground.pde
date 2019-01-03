@@ -1,38 +1,32 @@
 /**
- * Defines a base ground class
+ * Defines the main ground object
  */
 public class Ground extends GameObject {
 
-	float x = width;
-	float y = height - floor(random(groundHeight - 20, groundHeight + 30));
-	int w = random(1, 10);
+	float GroundHeight = 100;
 
+	/**
+	 * The Collision system instance
+	 * @type {Collision}
+	 */
+	Collision collision;
+
+	/**
+	 * Default constructor
+	 * @param {[type]} game [description]
+	 */
 	public Ground (game) {
 		super(game);
+
+		collision = new Collision(this);
 	}
 
-	void show() {
-		stroke(0);
-		strokeWeight(3);
-		line(x, y, x + w, y);
-	}
-
-	void move(float speed) {
-		x -= speed;
-	}
-
-	void update() {
-		ArrayList<Ground> grounds = game.getObjects(Ground);
-		for (int i = 0; i < grounds.size(); i++) {
-			grounds.get(i).move(speed);
-			if(grounds.get(i).x < 0) {
-				delete();
-			}
-		}
-
-		move(speed);
-
-		show();
+	void setup() {
+		// Create the ground shape manually
+		collision.shape[0].x = 0;
+		collision.shape[0].y = height - GroundHeight - 30;
+		collision.shape[1].x = width;
+		collision.shape[1].y = height;
 	}
 
 }
